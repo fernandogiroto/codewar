@@ -643,6 +643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   cameraFollowTarget: {fileID: 2297562196306886424}
+  cameraLookAtTarget: {fileID: 0}
 --- !u!1 &5464022807752175065
 GameObject:
   m_ObjectHideFlags: 0
