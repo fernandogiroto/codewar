@@ -40,6 +40,15 @@ public class Player : Entity
     public float dashSpeed = 20;
     public Vector2 moveInput { get; private set; }
 
+    [Header("Throw details")]
+    public GameObject axePrefab;
+    public Transform handPoint;
+    public float throwForce = 12f;
+    internal Vector2 facingDirection;
+
+    public Player_ThrowState throwState { get; private set; }
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -58,6 +67,8 @@ public class Player : Entity
         jumpAttackState = new Player_JumpAttackState(this, stateMachine, "jumpAttack");
         deadState = new Player_DeadState(this, stateMachine, "dead");
         counterAttackState = new Player_CounterAttackState(this, stateMachine, "counterAttack");
+        throwState = new Player_ThrowState(this, stateMachine, "throw");
+
     }
 
     protected override void Start()
@@ -86,6 +97,14 @@ public class Player : Entity
     {
         yield return new WaitForEndOfFrame();
         stateMachine.ChangeState(basicAttackState);
+    }
+
+    public void SpawnAxe()
+    {
+        GameObject axe = Instantiate(axePrefab, handPoint.position, Quaternion.identity);
+
+        Rigidbody2D rb = axe.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = facingDirection * Vector2.right * throwForce;
     }
 
     private void OnEnable()
